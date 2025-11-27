@@ -2,19 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "./headers/comandos.h"
+#include "./headers/frequencia.h"
 
 int main() {
     char nomeArquivo[100];
     char *textoDescriptografado = NULL;
     char chave[26] = {0};
+    char *chaveCriptografada = NULL;
 
     printf("Digite o nome do arquivo de texto descriptografado: ");
     scanf("%s", nomeArquivo);
     long tamanhoTexto = lerArquivo(nomeArquivo, &textoDescriptografado);
     
     char *textoCriptografado = codifica(textoDescriptografado, tamanhoTexto);
-    
+
     int opcao;
     do {
         printf("\nSelecione uma operacao:\n");
@@ -29,11 +30,10 @@ int main() {
 
         switch (opcao) {
             case 1:
-                printf("TODO: Implementar funcao de apresentar estado atual da criptoanálise.\n");
-                // apresentarEstado(textoDescriptografado, chave);
+                apresentarEstado(textoCriptografado, chave, chaveCriptografada);
                 break;
             case 2:
-                analiseFrequencia(textoDescriptografado);
+                chaveCriptografada = analiseFrequencia(textoCriptografado);
                 break;
             case 3:
                 casamentoExato(textoDescriptografado);

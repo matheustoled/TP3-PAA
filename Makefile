@@ -4,7 +4,7 @@ CFLAGS = -Wall -std=c99 -I./headers
 LDFLAGS = -lm
 
 # Arquivos de origem
-SRC = src/main.c src/comandos.c src/centralControle.c
+SRC = src/main.c src/casamentoExato.c src/frequencia.c src/comandos.c src/centralControle.c
 
 # Nome do executável
 EXEC = programa

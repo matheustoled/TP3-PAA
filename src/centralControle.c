@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "./headers/comandos.h"
+#include "./headers/frequencia.h"
 
 void removerAcentos(char *str) {
     char temp[strlen(str) + 1];
@@ -74,9 +74,6 @@ long lerArquivo(char *nomeArquivo, char **textoDescriptografado) {
     long tamanho = ftell(arquivo);
     fseek(arquivo, 0, SEEK_SET); // Volta ao início do arquivo
 
-    // Verifique o valor de tamanho
-    printf("Tamanho do arquivo: %ld bytes\n", tamanho);
-
     *textoDescriptografado = (char *)malloc(tamanho + 1);  // +1 para o terminador '\0'
     if (*textoDescriptografado == NULL) {
         printf("Erro ao alocar memória para o texto descriptografado.\n");
@@ -84,21 +81,12 @@ long lerArquivo(char *nomeArquivo, char **textoDescriptografado) {
         exit(1);
     }
 
-    // Lê o arquivo para a memória
-    size_t bytesLidos = fread(*textoDescriptografado, 1, tamanho, arquivo);
-    
-    // Verifique se o número de bytes lidos corresponde ao tamanho
-    if (bytesLidos != tamanho) {
-        printf("Erro ao ler o arquivo. Bytes lidos: %zu, esperado: %ld\n", bytesLidos, tamanho);
-    }
-
-    (*textoDescriptografado)[tamanho] = '\0';  // Assegura que a string termina corretamente
+    fread(*textoDescriptografado, 1, tamanho, arquivo);
+    (*textoDescriptografado)[tamanho] = '\0';
     fclose(arquivo);
 
-    // Remover acentos e tornar letras maiúsculas
     removerAcentos(*textoDescriptografado);
 
-    // Converte todo o texto para maiúsculas
     for (long i = 0; i < tamanho; i++) {
         (*textoDescriptografado)[i] = toupper((*textoDescriptografado)[i]);
     }

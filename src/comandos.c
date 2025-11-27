@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
-#include "./headers/comandos.h"
+#include "./headers/frequencia.h"
+
+int max(int a, int b) { return (a > b) ? a : b; }
 
 // Função para codificar o texto
 char *codifica(char *textoDescriptografado, long tamanhoTexto){
@@ -14,27 +17,25 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
     }
 
     int i = 0, j = 0;
-    char vetLetras[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                           'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    char vetLetras[qtdLetras] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                                  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
     for (i = 0; i < tamanhoTexto; i++){
         if ((textoDescriptografado[i] >= 'A' && textoDescriptografado[i] <= 'Z')) {
             for (j = 0; j < qtdLetras; j++){
                 if(textoDescriptografado[i] == vetLetras[j]) {
-                    textoCriptografado[i] = vetLetras[(j + 3) % 26];
+                    textoCriptografado[i] = vetLetras[(j + 3) % qtdLetras];
                 }
             }
         } else {
             textoCriptografado[i] = textoDescriptografado[i];
         }
     }
-    printf("\n=== Texto Descriptografado ===\n");
-    printf("\nTexto Criptografado (Debug): %s\n", textoDescriptografado);
-    printf("\n=== Texto Criptografado ===\n");
-    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
-        printf("%c", textoCriptografado[i]);
-    }
-    printf("\n");
+    // printf("\n=== Texto Criptografado ===\n");
+    // for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+    //     printf("%c", textoCriptografado[i]);
+    // }
+    // printf("\n");
 
     return textoCriptografado;
 }
@@ -44,45 +45,53 @@ void decodifica(){
     
 }
 
-// Função para apresentar o estado atual da criptoanálise
-// void apresentarEstado(char *textoDescriptografado, char *chave) {
-//     printf("=== Texto descriptografado ===\n");
-//     printf("%s\n", textoDescriptografado);
-//     
-//     printf("\n=== Chave ===\n");
-//     for (int i = 0; i < 26; i++) {
-//         printf("%c -> %c\n", 'A' + i, chave[i] ? chave[i] : '-');
-//     }
-// }
+void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada) {
+    // Exibe o texto criptografado
+    printf("=== Texto Criptografado ===\n");
+    printf("%s\n", textoCriptografado);
 
-// Função para realizar a análise de frequência
-void analiseFrequencia(char *textoDescriptografado) {
-    //TODO: Fazer funcao de calculo de frequencia de letras
-    printf("\nAnálise de Frequência - Não implementado ainda.\n");
-}
+    // Exibe a chave de criptografia
+    printf("\n=== Chave ===\n");
+    for (int i = 0; i < qtdLetras; i++) {
+        printf("%c ", 'A' + i);
+    }
+    printf("\n");
+    if(chaveCriptografada != NULL) {
+        for (int i = 0; i < qtdLetras; i++) {
+            printf("%c ", chaveCriptografada[i]);
+        }
+    }
+    printf("\n");
 
-// Função para buscar padrão exato no texto criptografado
-void casamentoExato(char *textoDescriptografado) {
-    char padrao[100];
-    printf("\nDigite o padrão para busca exata: ");
-    scanf("%s", padrao);
-
-    //TODO: Fazer funcao de algoritmo de casamento de padroes, como KMP
-    printf("Busca exata de '%s' no texto: Não implementado ainda.\n", padrao);
+    // Exibe o texto descriptografado utilizando a chave mapeada
+    printf("\n=== Texto Descriptografado ===\n");
+    if(chaveCriptografada == NULL) {
+        printf("%s\n", textoCriptografado);
+    } else if (chaveCriptografada != NULL) {
+        for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+            char c = textoCriptografado[i];
+            if (c >= 'A' && c <= 'Z') {
+                printf("%c", chaveCriptografada[c - 'A']);
+            } else {
+                printf("%c", c);
+            }
+        }
+    }
+    printf("\n");
 }
 
 // Função para casamento aproximado
-void casamentoAproximado(char *textoDescriptografado) {
-    char padrao[100];
-    int tolerancia;
-    printf("\nDigite o padrão para busca aproximada: ");
-    scanf("%s", padrao);
-    printf("Digite a tolerância (número de erros permitidos): ");
-    scanf("%d", &tolerancia);
+// void casamentoAproximado(char *textoDescriptografado) {
+//     char padrao[100];
+//     int tolerancia;
+//     printf("\nDigite o padrão para busca aproximada: ");
+//     scanf("%s", padrao);
+//     printf("Digite a tolerância (número de erros permitidos): ");
+//     scanf("%d", &tolerancia);
 
-    // TODO: Implementação do algoritmo casamento aproximado
-    printf("Busca aproximada de '%s' com tolerância %d: Não implementado ainda.\n", padrao, tolerancia);
-}
+//     // TODO: Implementação do algoritmo casamento aproximado
+//     printf("Busca aproximada de '%s' com tolerância %d: Não implementado ainda.\n", padrao, tolerancia);
+// }
 
 // Função para alterar a chave de criptografia
 void alterarChave(char *chave) {
@@ -104,7 +113,7 @@ void exportarResultado(char *chave) {
     }
 
     fprintf(arquivo, "Chave de criptografia:\n");
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < qtdLetras; i++) {
         fprintf(arquivo, "%c -> %c\n", 'A' + i, chave[i] ? chave[i] : '-');
     }
 
