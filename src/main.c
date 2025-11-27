@@ -12,9 +12,9 @@ int main() {
     printf("Digite o nome do arquivo de texto descriptografado: ");
     scanf("%s", nomeArquivo);
     long tamanhoTexto = lerArquivo(nomeArquivo, &textoDescriptografado);
-
+    
     char *textoCriptografado = codifica(textoDescriptografado, tamanhoTexto);
-
+    
     int opcao;
     do {
         printf("\nSelecione uma operacao:\n");

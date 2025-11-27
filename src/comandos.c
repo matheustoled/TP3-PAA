@@ -17,24 +17,24 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
     char vetLetras[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
-    for (i = 0; i < tamanhoTexto; i++){ // Varrendo os 2 vetores fazendo a busca de letras correspondentes
+    for (i = 0; i < tamanhoTexto; i++){
         if ((textoDescriptografado[i] >= 'A' && textoDescriptografado[i] <= 'Z')) {
             for (j = 0; j < qtdLetras; j++){
                 if(textoDescriptografado[i] == vetLetras[j]) {
-                    textoCriptografado[i] = vetLetras[(j + 3) % 26]; // (deslocamento) não pode sair do vetor letras
+                    textoCriptografado[i] = vetLetras[(j + 3) % 26];
                 }
             }
         } else {
             textoCriptografado[i] = textoDescriptografado[i];
         }
     }
-
-    for (int i = 0; i < tamanhoTexto; i++) {
-        if (textoCriptografado[i] == '\0') {
-            break;
-        }
+    printf("\n=== Texto Descriptografado ===\n");
+    printf("\nTexto Criptografado (Debug): %s\n", textoDescriptografado);
+    printf("\n=== Texto Criptografado ===\n");
+    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
         printf("%c", textoCriptografado[i]);
     }
+    printf("\n");
 
     return textoCriptografado;
 }
