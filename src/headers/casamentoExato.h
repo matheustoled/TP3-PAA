@@ -1,14 +1,16 @@
 #ifndef CASAMENTO_H_
 #define CASAMENTO_H_
 
-#define NO_OF_CHARS 256
+#define NUM_CARACTERES 256
 
-#include "frequencia.h"
+//#include "frequencia.h"
 
-int max(int a, int b);
+// Função para realizar o casamento exato de caracteres no texto criptografado
+void casamentoExato(char *textoCriptografado);
 
-void badCharHeuristic(char* str, int size, int badchar[NO_OF_CHARS]);
-
-void search(char* txt, char* pat);
+// Funções do algoritmo Boyer-Moore
+int maximo(int a, int b);
+void heuristicaCaractereRuim(char* padrao, int tamanho, int tabelaCaractereRuim[NUM_CARACTERES]);
+int buscarPadrao(char* texto, char* padrao);
 
 #endif

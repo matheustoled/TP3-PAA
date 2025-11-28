@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "./headers/frequencia.h"
+#include "./headers/casamentoExato.h"
 
 int main() {
     char nomeArquivo[100];
@@ -36,16 +37,19 @@ int main() {
                 chaveCriptografada = analiseFrequencia(textoCriptografado);
                 break;
             case 3:
-                casamentoExato(textoDescriptografado);
+                casamentoExato(textoCriptografado);
                 break;
             case 4:
-                casamentoAproximado(textoDescriptografado);
+                printf("Funcionalidade em desenvolvimento.\n");
+                //casamentoAproximado(textoDescriptografado);
                 break;
             case 5:
-                alterarChave(chave);
+                printf("Funcionalidade em desenvolvimento.\n");
+                //alterarChave(chave);
                 break;
             case 6:
-                exportarResultado(chave);
+                printf("Funcionalidade em desenvolvimento.\n");
+                //exportarResultado(chave);
                 printf("Programa encerrado.\n");
                 break;
             default:

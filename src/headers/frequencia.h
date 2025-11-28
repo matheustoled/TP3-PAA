@@ -1,3 +1,6 @@
+
+#ifndef FREQUENCIA_H_  
+#define FREQUENCIA_H_
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,3 +18,5 @@ int compararFrequencias(const void *a, const void *b);
 
 // Função para contar frequências e exibir resultados
 char *analiseFrequencia(char *textoCriptografado);
+
+#endif // FREQUENCIA_H_
