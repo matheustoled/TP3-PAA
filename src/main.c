@@ -4,6 +4,7 @@
 
 #include "./headers/frequencia.h"
 #include "./headers/casamentoExato.h"
+#include "./headers/casamentoAproximado.h"
 
 int main() {
     char nomeArquivo[100];
@@ -40,8 +41,7 @@ int main() {
                 casamentoExato(textoCriptografado);
                 break;
             case 4:
-                printf("Funcionalidade em desenvolvimento.\n");
-                //casamentoAproximado(textoDescriptografado);
+                casamentoAproximado(textoDescriptografado);
                 break;
             case 5:
                 printf("Funcionalidade em desenvolvimento.\n");
