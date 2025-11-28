@@ -49,8 +49,7 @@ int main() {
                 alterarChave(chave);
                 break;
             case 6:
-                printf("Funcionalidade em desenvolvimento.\n");
-                //exportarResultado(chave);
+                exportarResultado(chave, textoCriptografado, chaveCriptografada);
                 printf("Programa encerrado.\n");
                 break;
             default:

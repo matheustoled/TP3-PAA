@@ -15,6 +15,6 @@ void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptogr
 void alterarChave(char *chave);
 
 // Função para exportar o resultado
-void exportarResultado(char *chave);
+void exportarResultado(char *chave, char *textoCriptografado, char *chaveCriptografada);
 
 #endif

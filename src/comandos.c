@@ -114,13 +114,13 @@ void alterarChave(char *chave) {
     printf("\nInforme a letra original, seguida da letra para a qual foi mapeada:\n> ");
     scanf(" %c %c", &original, &mapeada);
 
-    // TODO: Fazer funcao de atualizacao da chave de criptografia
+    // Funcao de atualizacao da chave de criptografia
     chave[original - 'A'] = mapeada;
     printf("Registrado: %c -> %c\n", original, mapeada);
 }
 
-// TODO: Função para exportar o resultado
-void exportarResultado(char *chave) {
+// Função para exportar o resultado
+void exportarResultado(char *chave, char *textoCriptografado, char *chaveCriptografada){
     char nomeArquivo[100];
     printf("Digite o nome do arquivo onde deseja salvar as informacoes:");
     scanf("%s", nomeArquivo);
@@ -131,12 +131,37 @@ void exportarResultado(char *chave) {
         printf("Erro ao abrir o arquivo para exportar a chave.\n");
         return;
     }
+    fprintf(arquivo,"\nTexto Criptografado:\n");
+    fprintf(arquivo, "%s", textoCriptografado);
 
-    fprintf(arquivo, "Chave de criptografia:\n");
+    fprintf(arquivo, "\nChave de criptografia:\n");
     for (int i = 0; i < qtdLetras; i++) {
-        fprintf(arquivo, "%c -> %c\n", 'A' + i, chave[i] ? chave[i] : '-');
+        char letraDecodificada = chaveCriptografada[i];
+
+        if (letraDecodificada < 'A' || letraDecodificada > 'Z') {
+            letraDecodificada = '-';  // posição ainda não descoberta
+        }
+        fprintf(arquivo, "%c -> %c\n", 'A' + i, letraDecodificada);
     }
 
-    fclose(arquivo);
-    printf("Resultado exportado para o arquivo %s.\n", nomeArquivo);
+    fprintf(arquivo,"\nTexto Descriptografado:\n");
+    if (chaveCriptografada != NULL){
+        for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+            char c = textoCriptografado[i];
+
+            if (c >= 'A' && c <= 'Z'){
+                char decifrada = chaveCriptografada[c - 'A'];
+                if (decifrada != '?') { 
+                    fprintf(arquivo, "%c", decifrada);
+                }
+            }
+            else{
+                fprintf(arquivo, "%c", c);
+            }
+        }
+        fprintf(arquivo, "\n");
+    }
+    else{
+        fprintf(arquivo, "%s", textoCriptografado);
+    }
 }
