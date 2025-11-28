@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <time.h>
 
 #include "./headers/frequencia.h"
 
@@ -16,6 +17,9 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
         exit(1);
     }
 
+    srand(time(NULL));
+    
+    int deslocamento = rand() % 25 + 1;
 
     int i = 0, j = 0;
     char vetLetras[qtdLetras] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -35,9 +39,8 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
 
         if (c >= 'A' && c <= 'Z') {
             for (j = 0; j < qtdLetras; j++){
-                if (c == vetLetras[j]) {
-                    textoCriptografado[i] = vetLetras[(j + 3) % qtdLetras];
-                    break;
+                if(textoDescriptografado[i] == vetLetras[j]) {
+                    textoCriptografado[i] = vetLetras[(j + deslocamento) % qtdLetras];
                 }
             }
         }

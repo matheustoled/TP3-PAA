@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "centralcontrole.h": "c",
-        "comandos.h": "c"
+        "comandos.h": "c",
+        "frequencia.h": "c"
     }
 }
