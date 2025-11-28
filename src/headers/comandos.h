@@ -9,7 +9,7 @@
 // Função para codificar o texto
 char *codifica(char *textoDescriptografado, long tamanhoTexto);
 
-void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada);
+void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada, char *textoParcialmenteDescriptografada);
 
 // Função para alterar a chave de criptografia
 void alterarChave(char *chave);

@@ -11,14 +11,24 @@ int main() {
     char *textoDescriptografado = NULL;
     char chave[26] = {0};
     char *chaveCriptografada = NULL;
+    char *textoParcialmenteDescriptografada = NULL;
 
     printf("Digite o nome do arquivo de texto descriptografado: ");
     scanf("%s", nomeArquivo);
+
     char caminhoCompleto[200];
     sprintf(caminhoCompleto, "./input/%s", nomeArquivo);
+
     long tamanhoTexto = lerArquivo(caminhoCompleto, &textoDescriptografado);
-    
+
     char *textoCriptografado = codifica(textoDescriptografado, tamanhoTexto);
+
+    // AQUI: alocamos o buffer para armazenar o texto parcialmente descriptografado
+    textoParcialmenteDescriptografada = malloc(tamanhoTexto + 1);
+    if (!textoParcialmenteDescriptografada) {
+        printf("Erro ao alocar memória.\n");
+        return 1;
+    }
 
     int opcao;
     do {
@@ -34,24 +44,33 @@ int main() {
 
         switch (opcao) {
             case 1:
-                apresentarEstado(textoCriptografado, chave, chaveCriptografada);
+                apresentarEstado(textoCriptografado,
+                                 chave,
+                                 chaveCriptografada,
+                                 textoParcialmenteDescriptografada);
                 break;
+
             case 2:
                 chaveCriptografada = analiseFrequencia(textoCriptografado);
                 break;
+
             case 3:
-                casamentoExato(textoCriptografado,tamanhoTexto);
+                casamentoExato(textoCriptografado, tamanhoTexto);
                 break;
+
             case 4:
-                casamentoAproximado(textoDescriptografado);
+                casamentoAproximado(textoParcialmenteDescriptografada);
                 break;
+
             case 5:
                 alterarChave(chave);
                 break;
+
             case 6:
                 exportarResultado(chave, textoCriptografado, chaveCriptografada);
                 printf("Programa encerrado.\n");
                 break;
+
             default:
                 printf("Opção inválida! Tente novamente.\n");
         }
@@ -59,6 +78,7 @@ int main() {
 
     free(textoDescriptografado);
     free(textoCriptografado);
+    free(textoParcialmenteDescriptografada);
 
     return 0;
 }
