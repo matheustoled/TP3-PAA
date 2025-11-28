@@ -49,7 +49,7 @@ char *analiseFrequencia(char *textoCriptografado) {
     qsort(letras, qtdLetras, sizeof(FrequenciaLetra), compararFrequencias);
 
     // Exibindo as frequências absolutas e relativas ordenadas
-    printf("\n=== Frequencia das letras ===\n");
+    printf("\n--- Frequencia das letras ---\n");
     printf("Letra\tCont.\tFreq.\n");
     for (int i = 0; i < qtdLetras; i++) {
         if (letras[i].contagem > 0) {
@@ -65,7 +65,7 @@ char *analiseFrequencia(char *textoCriptografado) {
 
     chaveCriptografada[qtdLetras] = '\0';
 
-    printf("\n=== chaveCriptografada ===\n");
+    printf("\n--- chaveCriptografada ---\n");
     for (int i = 0; i < qtdLetras; i++) {
         printf("%c ", 'A' + i);
     }

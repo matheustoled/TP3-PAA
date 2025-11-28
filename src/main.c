@@ -13,7 +13,9 @@ int main() {
 
     printf("Digite o nome do arquivo de texto descriptografado: ");
     scanf("%s", nomeArquivo);
-    long tamanhoTexto = lerArquivo(nomeArquivo, &textoDescriptografado);
+    char caminhoCompleto[200];
+    sprintf(caminhoCompleto, "./input/%s", nomeArquivo);
+    long tamanhoTexto = lerArquivo(caminhoCompleto, &textoDescriptografado);
     
     char *textoCriptografado = codifica(textoDescriptografado, tamanhoTexto);
 
@@ -37,15 +39,14 @@ int main() {
                 chaveCriptografada = analiseFrequencia(textoCriptografado);
                 break;
             case 3:
-                casamentoExato(textoCriptografado);
+                casamentoExato(textoCriptografado,tamanhoTexto);
                 break;
             case 4:
                 printf("Funcionalidade em desenvolvimento.\n");
                 //casamentoAproximado(textoDescriptografado);
                 break;
             case 5:
-                printf("Funcionalidade em desenvolvimento.\n");
-                //alterarChave(chave);
+                alterarChave(chave);
                 break;
             case 6:
                 printf("Funcionalidade em desenvolvimento.\n");

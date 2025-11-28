@@ -1,6 +1,7 @@
 #ifndef COMANDOS_H_
 #define COMANDOS_H_
-
+#define ROSA "\x1b[38;5;218m"
+#define RESET "\x1b[0m"
 #include "centralControle.h"
 
 #define qtdLetras 26
