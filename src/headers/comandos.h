@@ -8,13 +8,7 @@
 // Função para codificar o texto
 char *codifica(char *textoDescriptografado, long tamanhoTexto);
 
-// Função para decodificar o texto
-void decodifica();
-
 void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada);
-
-// // Função para casamento aproximado (Shift-And)
-// void casamentoAproximado(char *textoCriptografado);
 
 // Função para alterar a chave de criptografia
 void alterarChave(char *chave);

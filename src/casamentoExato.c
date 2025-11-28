@@ -86,7 +86,6 @@ void casamentoExato(char *textoCriptografado) {
         padrao[i] = toupper(padrao[i]);
     }
 
-    // Realiza a busca chamando a função traduzida
     int qtd = buscarPadrao(textoCriptografado, padrao);
 
     // Exibe o resultado conforme especificação

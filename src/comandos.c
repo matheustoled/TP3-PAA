@@ -40,11 +40,6 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
     return textoCriptografado;
 }
 
-// Função para decodificar o texto
-void decodifica(){
-    
-}
-
 void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada) {
     // Exibe o texto criptografado
     printf("=== Texto Criptografado ===\n");
@@ -79,19 +74,6 @@ void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptogr
     }
     printf("\n");
 }
-
-// Função para casamento aproximado
-// void casamentoAproximado(char *textoDescriptografado) {
-//     char padrao[100];
-//     int tolerancia;
-//     printf("\nDigite o padrão para busca aproximada: ");
-//     scanf("%s", padrao);
-//     printf("Digite a tolerância (número de erros permitidos): ");
-//     scanf("%d", &tolerancia);
-
-//     // TODO: Implementação do algoritmo casamento aproximado
-//     printf("Busca aproximada de '%s' com tolerância %d: Não implementado ainda.\n", padrao, tolerancia);
-// }
 
 // Função para alterar a chave de criptografia
 void alterarChave(char *chave) {
