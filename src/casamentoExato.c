@@ -28,7 +28,7 @@ void heuristicaCaractereRuim(char* padrao, int tamanho,
 
 /* Função de busca de padrão usando o algoritmo de Boyer-Moore */
 /* Retorna o número de ocorrências encontradas */
-int buscarPadrao(char* texto, char* padrao){
+int buscarPadrao(char* texto, char* padrao, int *indices){
     int m = strlen(padrao);
     int n = strlen(texto);
     int ocorrencias = 0;
@@ -53,7 +53,10 @@ int buscarPadrao(char* texto, char* padrao){
             
             // Imprimir a posição (índice) da ocorrência
             printf("Padrao encontrado na posicao: %d\n", s);
-
+             // Marca todas as posições encontradas
+            for (int k = 0; k < m; k++) {
+                indices[s + k] = 1;
+            }
             /* Desloca o padrão para alinhar o próximo caractere do texto
                com a última ocorrência dele no padrão */
             // Verifica se s + m < n para não acessar memória fora do texto
@@ -74,11 +77,14 @@ int buscarPadrao(char* texto, char* padrao){
 }
 
 // Função de interface para casamento exato (Chamada pelo menu)
-void casamentoExato(char *textoCriptografado) {
+void casamentoExato(char *textoCriptografado, int tamanhoTexto) {
     char padrao[256];
-
+    int indices[tamanhoTexto];
+    for(int i = 0; i < tamanhoTexto; i++){
+        indices[i] = 0;
+    }
     // Solicita o padrão
-    printf("Qual o padrao utilizado?\n> ");
+    printf("Qual o padrao utilizado?\n> "); 
     scanf("%s", padrao);
 
     // Converte o padrão para maiúsculas para bater com o texto criptografado
@@ -86,8 +92,47 @@ void casamentoExato(char *textoCriptografado) {
         padrao[i] = toupper(padrao[i]);
     }
 
-    int qtd = buscarPadrao(textoCriptografado, padrao);
+    int qtd = buscarPadrao(textoCriptografado, padrao, indices);
 
     // Exibe o resultado conforme especificação
     printf("Ocorrencias: %d\n", qtd);
+    for(int i=0; i<tamanhoTexto; i++){
+        if(indices[i] == 1){
+            printf("%s%c%s", ROSA, textoCriptografado[i], RESET);
+        }
+        else{
+            printf("%c", textoCriptografado[i]);
+        }
+    }
+    printf("\n");
+    float totalLetras = ContarLetras(textoCriptografado);
+    float totalPalavras = ContarPalavras(textoCriptografado);
+
+    float freqLetras = qtd / totalLetras;
+    float freqPalavras = qtd / totalPalavras;
+
+    printf("\nFrequência do padrão com relação a quantidade de palavras: %lf\n", freqLetras);
+    printf("Frequência do padrão com relação a quantidade de letras: %lf\n", freqPalavras);
+}
+
+float ContarLetras(char *textoCriptografado){
+    float totalLetras = 0;
+    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+        char c = textoCriptografado[i];
+        if (c >= 'A' && c <= 'Z') {
+            totalLetras++;
+        }
+    }
+    return totalLetras;
+}
+
+float ContarPalavras(char *textoCriptografado){
+    float totalPalavras = 0;
+    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+        char c = textoCriptografado[i];
+        if (c == ',' || c == ' ' || c == '"' || c == '!' || c == ':' || c == ';' || c == '_' || c == '?' || c == '-' || c == '.'){
+            totalPalavras++;
+        }
+    }
+    return totalPalavras;
 }

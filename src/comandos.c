@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <time.h>
 
 #include "./headers/frequencia.h"
 
@@ -16,37 +17,59 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
         exit(1);
     }
 
+    srand(time(NULL));
+    
+    int deslocamento = rand() % 25 + 1;
+
     int i = 0, j = 0;
     char vetLetras[qtdLetras] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                                  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+                                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    char vetAcentos[] = {',', '.', '"', '-', '?', '!', ';', ':', '_'};
 
-    for (i = 0; i < tamanhoTexto; i++){
-        if ((textoDescriptografado[i] >= 'A' && textoDescriptografado[i] <= 'Z')) {
+    for(i = 0; i < tamanhoTexto; i++){
+        char c = textoDescriptografado[i];
+        int ehPontuacao = 0;
+
+        for (j = 0; j < sizeof(vetAcentos); j++) {
+            if (c == vetAcentos[j]) {
+                ehPontuacao = 1;
+                break;
+            }
+        }
+
+        if (c >= 'A' && c <= 'Z') {
             for (j = 0; j < qtdLetras; j++){
                 if(textoDescriptografado[i] == vetLetras[j]) {
-                    textoCriptografado[i] = vetLetras[(j + 3) % qtdLetras];
+                    textoCriptografado[i] = vetLetras[(j + deslocamento) % qtdLetras];
                 }
             }
-        } else {
-            textoCriptografado[i] = textoDescriptografado[i];
+        }
+        else if (ehPontuacao){
+            textoCriptografado[i] = ' ';
+        }
+        else{
+            textoCriptografado[i] = ' ';
         }
     }
-    // printf("\n=== Texto Criptografado ===\n");
-    // for (int i = 0; textoCriptografado[i] != '\0'; i++) {
-    //     printf("%c", textoCriptografado[i]);
-    // }
-    // printf("\n");
+
+    textoCriptografado[tamanhoTexto] = '\0';
+
+    printf("\n--- Texto Criptografado ---\n");
+    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+        printf("%c", textoCriptografado[i]);
+    }
+    printf("\n");
 
     return textoCriptografado;
 }
 
 void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada) {
     // Exibe o texto criptografado
-    printf("=== Texto Criptografado ===\n");
+    printf("\n--- Texto Criptografado ---\n");
     printf("%s\n", textoCriptografado);
 
     // Exibe a chave de criptografia
-    printf("\n=== Chave ===\n");
+    printf("\n--- Chave ---\n");
     for (int i = 0; i < qtdLetras; i++) {
         printf("%c ", 'A' + i);
     }
@@ -59,26 +82,39 @@ void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptogr
     printf("\n");
 
     // Exibe o texto descriptografado utilizando a chave mapeada
-    printf("\n=== Texto Descriptografado ===\n");
-    if(chaveCriptografada == NULL) {
-        printf("%s\n", textoCriptografado);
-    } else if (chaveCriptografada != NULL) {
+    printf("\n--- Texto Descriptografado ---\n");
+    if (chaveCriptografada != NULL){
         for (int i = 0; textoCriptografado[i] != '\0'; i++) {
             char c = textoCriptografado[i];
-            if (c >= 'A' && c <= 'Z') {
-                printf("%c", chaveCriptografada[c - 'A']);
-            } else {
+
+            if (c >= 'A' && c <= 'Z'){
+                char decifrada = chaveCriptografada[c - 'A'];
+
+                // Se essa letra já foi descoberta (mapeada), pinte!
+                if (decifrada != '?') { 
+                    printf("%s%c%s", ROSA, decifrada, RESET);
+                } else {
+                    // Letra ainda não descoberta
+                    printf("%c", c);
+                }
+            }
+            else{
                 printf("%c", c);
             }
         }
+        printf("\n");
     }
+    else{
+        printf("%s\n", textoCriptografado);
+    }
+
     printf("\n");
 }
 
 // Função para alterar a chave de criptografia
 void alterarChave(char *chave) {
     char original, mapeada;
-    printf("\nInforme a letra original e a letra mapeada (exemplo: A S): ");
+    printf("\nInforme a letra original, seguida da letra para a qual foi mapeada:\n> ");
     scanf(" %c %c", &original, &mapeada);
 
     // TODO: Fazer funcao de atualizacao da chave de criptografia
@@ -88,7 +124,12 @@ void alterarChave(char *chave) {
 
 // TODO: Função para exportar o resultado
 void exportarResultado(char *chave) {
-    FILE *arquivo = fopen("chave_criptografica.txt", "w");
+    char nomeArquivo[100];
+    printf("Digite o nome do arquivo onde deseja salvar as informacoes:");
+    scanf("%s", nomeArquivo);
+    char caminhoCompleto[200];
+    sprintf(caminhoCompleto, "./output/%s", nomeArquivo);
+    FILE *arquivo = fopen(caminhoCompleto, "w");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo para exportar a chave.\n");
         return;
@@ -100,5 +141,5 @@ void exportarResultado(char *chave) {
     }
 
     fclose(arquivo);
-    printf("Resultado exportado para 'chave_criptografica.txt'.\n");
+    printf("Resultado exportado para o arquivo %s.\n", nomeArquivo);
 }
