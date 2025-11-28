@@ -111,8 +111,8 @@ void casamentoExato(char *textoCriptografado, int tamanhoTexto) {
     float freqLetras = qtd / totalLetras;
     float freqPalavras = qtd / totalPalavras;
 
-    printf("\nFrequência do padrão com relação a quantidade de palavras: %lf\n", freqLetras);
-    printf("Frequência do padrão com relação a quantidade de letras: %lf\n", freqPalavras);
+    printf("\nFrequencia do padrao com relacao a quantidade de palavras: %lf\n", freqLetras);
+    printf("Frequencia do padrao com relacao a quantidade de letras: %lf\n", freqPalavras);
 }
 
 float ContarLetras(char *textoCriptografado){
