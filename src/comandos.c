@@ -63,53 +63,62 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto){
     return textoCriptografado;
 }
 
-void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada) {
-    // Exibe o texto criptografado
+void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada, char *textoParcialmenteDescriptografada)
+{
     printf("\n--- Texto Criptografado ---\n");
     printf("%s\n", textoCriptografado);
 
-    // Exibe a chave de criptografia
     printf("\n--- Chave ---\n");
-    for (int i = 0; i < qtdLetras; i++) {
+    for (int i = 0; i < qtdLetras; i++)
         printf("%c ", 'A' + i);
-    }
     printf("\n");
-    if(chaveCriptografada != NULL) {
-        for (int i = 0; i < qtdLetras; i++) {
+
+    if (chaveCriptografada != NULL) {
+        for (int i = 0; i < qtdLetras; i++)
             printf("%c ", chaveCriptografada[i]);
-        }
     }
     printf("\n");
 
-    // Exibe o texto descriptografado utilizando a chave mapeada
+    int pos = 0;
+
+    // Preenche o buffer textoParcialmenteDescriptografada
+    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+        char c = textoCriptografado[i];
+
+        if (chaveCriptografada != NULL &&
+            c >= 'A' && c <= 'Z' &&
+            chaveCriptografada[c - 'A'] != '?') {
+
+            textoParcialmenteDescriptografada[pos++] = chaveCriptografada[c - 'A'];
+        }
+        else {
+            textoParcialmenteDescriptografada[pos++] = c;
+        }
+    }
+
+    textoParcialmenteDescriptografada[pos] = '\0';
+
+    // Exibir com cor no terminal
     printf("\n--- Texto Descriptografado ---\n");
-    if (chaveCriptografada != NULL){
-        for (int i = 0; textoCriptografado[i] != '\0'; i++) {
-            char c = textoCriptografado[i];
 
-            if (c >= 'A' && c <= 'Z'){
-                char decifrada = chaveCriptografada[c - 'A'];
+    for (int i = 0; textoCriptografado[i] != '\0'; i++) {
+        char c = textoCriptografado[i];
 
-                // Se essa letra já foi descoberta (mapeada), pinte!
-                if (decifrada != '?') { 
-                    printf("%s%c%s", ROSA, decifrada, RESET);
-                } else {
-                    // Letra ainda não descoberta
-                    printf("%c", c);
-                }
-            }
-            else{
-                printf("%c", c);
-            }
+        if (chaveCriptografada != NULL &&
+            c >= 'A' && c <= 'Z' &&
+            chaveCriptografada[c - 'A'] != '?') {
+
+            printf("%s%c%s", ROSA, chaveCriptografada[c - 'A'], RESET);
         }
-        printf("\n");
-    }
-    else{
-        printf("%s\n", textoCriptografado);
+        else {
+            printf("%c", c);
+        }
     }
 
-    printf("\n");
+    printf("\n\n");
 }
+
+
 
 // Função para alterar a chave de criptografia
 void alterarChave(char *chave, char* chaveCriptografada, char *textoCriptografado){
