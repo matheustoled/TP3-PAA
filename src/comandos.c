@@ -99,7 +99,7 @@ void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptogr
     textoParcialmenteDescriptografada[pos] = '\0';
 
     // Exibir com cor no terminal
-    printf("\n--- Texto Descriptografado ---\n");
+    printf("\n--- Texto Parcialmente Descriptografado ---\n");
 
     for (int i = 0; textoCriptografado[i] != '\0'; i++) {
         char c = textoCriptografado[i];
@@ -121,15 +121,41 @@ void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptogr
 
 
 // Função para alterar a chave de criptografia
-void alterarChave(char *chave) {
+void alterarChave(char *chave, char* chaveCriptografada, char *textoCriptografado){
     char original, mapeada;
     printf("\nInforme a letra original, seguida da letra para a qual foi mapeada:\n> ");
     scanf(" %c %c", &original, &mapeada);
 
-    // Funcao de atualizacao da chave de criptografia
-    chave[original - 'A'] = mapeada;
+    int idx = original - 'A';
+
+    chave[idx] = mapeada;
+    chaveCriptografada[idx] = mapeada;
+
     printf("Registrado: %c -> %c\n", original, mapeada);
+
+    printf("\n--- Chave ---\n");
+    for (int i = 0; i < qtdLetras; i++) {
+        if (i == idx) {
+            printf("%s%c%s ", ROSA, 'A' + i, RESET);
+        } else {
+            printf("%c ", 'A' + i);
+        }
+    }
+    printf("\n");
+
+    for (int i = 0; i < qtdLetras; i++) {
+        char out = (chaveCriptografada[i] >= 'A' && chaveCriptografada[i] <= 'Z')
+                    ? chaveCriptografada[i]
+                    : '-';
+        if (i == idx) {
+            printf("%s%c%s ", ROSA, out, RESET);
+        } else {
+            printf("%c ", out);
+        }
+    }
+    printf("\n");
 }
+
 
 // Função para exportar o resultado
 void exportarResultado(char *chave, char *textoCriptografado, char *chaveCriptografada){

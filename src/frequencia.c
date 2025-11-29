@@ -65,7 +65,7 @@ char *analiseFrequencia(char *textoCriptografado) {
 
     chaveCriptografada[qtdLetras] = '\0';
 
-    printf("\n--- chaveCriptografada ---\n");
+    printf("\n--- Chave Criptografada ---\n");
     for (int i = 0; i < qtdLetras; i++) {
         printf("%c ", 'A' + i);
     }
