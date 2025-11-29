@@ -46,7 +46,7 @@ int main() {
                 casamentoAproximado(textoDescriptografado);
                 break;
             case 5:
-                alterarChave(chave);
+                alterarChave(chave, chaveCriptografada, textoCriptografado);
                 break;
             case 6:
                 exportarResultado(chave, textoCriptografado, chaveCriptografada);

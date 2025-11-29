@@ -12,7 +12,7 @@ char *codifica(char *textoDescriptografado, long tamanhoTexto);
 void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptografada);
 
 // Função para alterar a chave de criptografia
-void alterarChave(char *chave);
+void alterarChave(char *chave, char* chaveCriptografada, char *textoCriptografado);
 
 // Função para exportar o resultado
 void exportarResultado(char *chave, char *textoCriptografado, char *chaveCriptografada);
