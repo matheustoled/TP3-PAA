@@ -99,7 +99,7 @@ void apresentarEstado(char *textoCriptografado, char *chave, char *chaveCriptogr
     textoParcialmenteDescriptografada[pos] = '\0';
 
     // Exibir com cor no terminal
-    printf("\n--- Texto Descriptografado ---\n");
+    printf("\n--- Texto Parcialmente Descriptografado ---\n");
 
     for (int i = 0; textoCriptografado[i] != '\0'; i++) {
         char c = textoCriptografado[i];
