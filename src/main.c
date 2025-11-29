@@ -44,10 +44,7 @@ int main() {
 
         switch (opcao) {
             case 1:
-                apresentarEstado(textoCriptografado,
-                                 chave,
-                                 chaveCriptografada,
-                                 textoParcialmenteDescriptografada);
+                apresentarEstado(textoCriptografado, chave, chaveCriptografada, textoParcialmenteDescriptografada);
                 break;
 
             case 2:

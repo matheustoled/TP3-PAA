@@ -4,20 +4,13 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/* ---------------------------------------------------------
-   Transforma string em MAIÚSCULA
---------------------------------------------------------- */
 void toUpperStr(char *s) {
     for (; *s; s++) *s = toupper((unsigned char)*s);
 }
 
-/* ---------------------------------------------------------
-   Cálculo real da distância de edição (Levenshtein)
-   COMPLETO e 100% correto
---------------------------------------------------------- */
 int distanciaEdicao(const char *a, const char *b, int m, int n) {
     int *dp = (int *)malloc((m+1) * (n+1) * sizeof(int));
-    if (!dp) return 999999; // fallback
+    if (!dp) return 999999;
 
     #define D(i,j) dp[(i)*(n+1) + (j)]
 
@@ -42,10 +35,6 @@ int distanciaEdicao(const char *a, const char *b, int m, int n) {
     return resposta;
 }
 
-/* ---------------------------------------------------------
-   SHIFT-AND APROXIMADO + verificação por Levenshtein
-   100% correto e sem falsos positivos
---------------------------------------------------------- */
 long casamentoAproximado(char *T)
 {
     char P[256];
@@ -67,14 +56,12 @@ long casamentoAproximado(char *T)
     if (m > 63) { printf("Erro: padrao muito grande (max 63).\n"); return -1; }
     if (k < 0) k = 0;
 
-    /* ----- Preparar as máscaras ----- */
     uint64_t Peq[256];
     for (int c = 0; c < 256; c++) Peq[c] = 0ULL;
     for (int i = 0; i < m; i++) {
         Peq[(unsigned char)P[i]] |= (1ULL << i);
     }
 
-    /* Estados D[0..k] */
     uint64_t *D = malloc((k+1) * sizeof(uint64_t));
     if (!D) { printf("Erro de memoria.\n"); return -1; }
 
@@ -88,10 +75,8 @@ long casamentoAproximado(char *T)
         uint64_t prev = D[0];
         uint64_t charmask = Peq[(unsigned char)T[i]];
 
-        /* Atualiza nível 0 */
         D[0] = ((D[0] << 1) | 1ULL) & charmask;
 
-        /* Atualiza níveis 1..k */
         for (int d = 1; d <= k; d++) {
             uint64_t old = D[d];
             uint64_t sub_or_match = ((D[d] << 1) | 1ULL) & charmask;
@@ -99,7 +84,6 @@ long casamentoAproximado(char *T)
             prev = old;
         }
 
-        /* Se o bit do fim estiver 1 → CANDIDATO */
         if (D[k] & (1ULL << (m - 1))) {
 
             int start = i - m + 1;
@@ -115,7 +99,6 @@ long casamentoAproximado(char *T)
 
                 ocorrencias++;
 
-                /* pular adiante para NÃO contar substrings internas */
                 i = i + m - 1;
             }
         }
