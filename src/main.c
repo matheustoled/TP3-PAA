@@ -63,7 +63,7 @@ int main() {
                 break;
 
             case 5:
-                alterarChave(chave);
+                alterarChave(chave, chaveCriptografada, textoCriptografado);
                 break;
 
             case 6:
